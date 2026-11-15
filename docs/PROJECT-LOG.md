@@ -4,8 +4,8 @@ One entry per working day. Hours are filled in by the builder; everything else i
 
 | Day | Date | Hours (actual) | Theme | Status |
 |-----|------|----------------|-------|--------|
-| 1 | (fill in) | (fill in) | Scope, PRD, blueprint, dev setup | Done |
-| 2 | 2026-11-15 | (fill in) | System design, contracts, mock data, config | Done once the manual close-out steps below are finished |
+| 1 | 2026-11-14 | 2 | Scope, PRD, blueprint, dev setup | Done |
+| 2 | 2026-11-15 | 2 | System design, contracts, mock data, config | Done once the manual close-out steps below are finished |
 
 ---
 
