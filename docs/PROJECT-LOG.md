@@ -6,7 +6,7 @@ One entry per working day. Hours are filled in by the builder; everything else i
 |-----|------|----------------|-------|--------|
 | 1 | 2026-11-14 | 2 | Scope, PRD, blueprint, dev setup | Done |
 | 2 | 2026-11-15 | 2 | System design, contracts, mock data, config | Done once the manual close-out steps below are finished |
-
+| 3 | 2026-11-15 | 1 | Loaders + Directory MCP server | Done |
 ---
 
 ## Day 1 - Scope, requirements, blueprint
@@ -35,3 +35,14 @@ One entry per working day. Hours are filled in by the builder; everything else i
 **Risks carried forward:** Days 5, 8 and 12 are likely longer than 3 h; Docker Desktop on Windows (install early on Day 12); free-tier cold starts on Render.
 
 **Next:** Day 3 - loaders and the Directory MCP server.
+
+## Day 3 - Loaders and Directory MCP server
+
+**Done**
+- `src/data.py` loaders with typed models and `is_eligible`.
+- Directory MCP server (`get_user`, `find_resource`, `check_access`) split into pure logic and a thin FastMCP wrapper; shared helpers (envelope, ID validation, fault injection, catch-all guard) in `mcp_servers/common.py`.
+- 126 offline tests, including a real stdio round trip and fault-injection tests; Ruff clean. Verified in the MCP Inspector.
+
+**Deviations:** `.mcp.json` deferred to Day 11; `@tool_guard` decorator added; stricter ID validation (see `docs/handoff/day-03.md`).
+
+**Next:** Day 4 - ITSM MCP server.
