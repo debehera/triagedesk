@@ -1,0 +1,5 @@
+{
+  "_source": "USD per million tokens, from the Anthropic pricing page (platform.claude.com/docs/en/about-claude/pricing), retrieved 2026-11-15. Haiku 5.5 rates apply to prompts up to 100,000 tokens; our per-ticket budget is 20,000. Re-verify before the Day 13 deploy.",
+  "claude-haiku-5-5": {"input_per_mtok": 0.10, "output_per_mtok": 0.50, "cache_read_per_mtok": 0.01, "cache_write_per_mtok": 0.125},
+  "claude-sonnet-5-5": {"input_per_mtok": 2.00, "output_per_mtok": 10.00, "cache_read_per_mtok": 0.10, "cache_write_per_mtok": 2.50}
+}

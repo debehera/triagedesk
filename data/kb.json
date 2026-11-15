@@ -1,0 +1,170 @@
+[
+  {
+    "id": "KB-001",
+    "title": "Reset a forgotten or expired password",
+    "category": "password_reset",
+    "keywords": ["password", "forgot", "forgotten", "expired", "reset", "login", "credentials", "change", "locked"],
+    "steps": [
+      "Open the self-service password portal in your browser from any device.",
+      "Choose Forgot password and enter your work email address.",
+      "Verify your identity with the authenticator app or the phone number registered on your account.",
+      "Create a new password that meets the company policy (at least 14 characters and not reused).",
+      "Sign in again on your laptop and phone, and update the saved password in any app that stores it."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-002",
+    "title": "Unlock an account after failed sign-ins",
+    "category": "password_reset",
+    "keywords": ["locked", "lockout", "unlock", "attempts", "failed", "account", "disabled", "blocked", "too many"],
+    "steps": [
+      "Wait 15 minutes; most lockouts clear automatically.",
+      "If the account is still locked, use the Unlock account option in the self-service portal.",
+      "Verify your identity with the authenticator app registered on your account.",
+      "Check for old saved sign-ins on your phone mail app or mapped drives that keep retrying, then update or remove them.",
+      "If the account stays locked, reply to the ticket so the service desk can review it."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-003",
+    "title": "VPN: authentication failed",
+    "category": "vpn_network",
+    "keywords": ["vpn", "authentication", "failed", "login", "connect", "client", "credentials", "expired", "rejected"],
+    "steps": [
+      "Check that your network password is current by signing in to webmail; if that fails, follow the password reset article first.",
+      "Fully close the VPN client and open it again.",
+      "Confirm the clock and time zone on your laptop are set to automatic.",
+      "Disconnect any personal VPN or proxy tool, then connect again using the Corporate profile.",
+      "If the client still reports authentication failed, update the VPN client from Software Center and try again."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-004",
+    "title": "VPN connects but internal sites are unreachable",
+    "category": "vpn_network",
+    "keywords": ["vpn", "connected", "internal", "intranet", "sites", "unreachable", "dns", "routes", "tunnel", "cannot reach"],
+    "steps": [
+      "Disconnect and reconnect to the Corporate VPN profile.",
+      "Clear the DNS cache (on Windows, open Command Prompt and run ipconfig /flushdns).",
+      "Try opening the internal site by its full internal address instead of a short name.",
+      "Turn off any personal VPN or secure-DNS setting in your browser.",
+      "If only some sites fail, list the site names in the ticket so the service desk can check them."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-005",
+    "title": "Wi-Fi keeps disconnecting",
+    "category": "vpn_network",
+    "keywords": ["wifi", "wireless", "disconnecting", "dropping", "drops", "network", "signal", "unstable", "connection"],
+    "steps": [
+      "Forget the Wi-Fi network and reconnect using your company sign-in.",
+      "Restart the laptop to refresh the wireless adapter.",
+      "Move closer to an access point and avoid the guest network.",
+      "Install any wireless driver update listed in Software Center.",
+      "If drops continue, note the time and location of each drop in the ticket."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-006",
+    "title": "Install approved software from Software Center",
+    "category": "software_install",
+    "keywords": ["install", "software", "application", "app", "download", "center", "approved", "update", "tool", "setup"],
+    "steps": [
+      "Open Software Center from the Start menu (Windows) or Self Service (Mac).",
+      "Search for the application by name.",
+      "Select Install and wait until the status shows Installed.",
+      "Restart the application or the laptop if you are prompted to.",
+      "If the application is not listed, it is not on the approved list; reply with the business reason so the service desk can review it."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-007",
+    "title": "Outlook stuck syncing or in Send/Receive",
+    "category": "email_calendar",
+    "keywords": ["outlook", "email", "mail", "sync", "syncing", "send", "receive", "stuck", "inbox", "mailbox", "offline"],
+    "steps": [
+      "Check the status bar at the bottom of Outlook; if it says Working Offline, select Send/Receive and turn Work Offline off.",
+      "Close Outlook completely and open it again.",
+      "Check that you can open your mail in the web browser; if you can, your mailbox itself is fine.",
+      "Restart your laptop and open Outlook again.",
+      "If the problem remains, create a new Outlook profile from Control Panel under Mail."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-008",
+    "title": "Calendar invites are not showing",
+    "category": "email_calendar",
+    "keywords": ["calendar", "invite", "invites", "meeting", "meetings", "missing", "showing", "appear", "accept"],
+    "steps": [
+      "Check the Junk and Deleted Items folders for the invite.",
+      "In Calendar, make sure the shared or secondary calendars you need are ticked.",
+      "Ask the organizer to resend the invite.",
+      "Check that your calendar view is not filtered by a category.",
+      "If invites from one person never arrive, add that person's name to the ticket."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-009",
+    "title": "Laptop will not power on or charge",
+    "category": "hardware",
+    "keywords": ["laptop", "power", "charge", "charging", "battery", "adapter", "boot", "dead", "wont"],
+    "steps": [
+      "Check the power adapter is firmly plugged in at the wall and at the laptop, and try a different wall socket.",
+      "Unplug the adapter, hold the power button for 30 seconds, plug the adapter back in and press the power button once.",
+      "Remove any docking station and USB devices and try again.",
+      "Look at the lights on the adapter and laptop and note whether any light blinks.",
+      "If there is still no power, reply with the laptop asset tag and the light behaviour so the service desk can arrange a replacement."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-010",
+    "title": "Printer offline or add a network printer",
+    "category": "hardware",
+    "keywords": ["printer", "print", "offline", "network", "queue", "add", "floor", "scanner", "driver"],
+    "steps": [
+      "Check that the printer shows ready on its own screen and has paper.",
+      "On your laptop open Settings, then Printers and scanners, remove the printer and add it again from the list of company printers.",
+      "Clear stuck jobs from the print queue and print a test page.",
+      "Restart the printer if it still shows offline.",
+      "If it is still offline, reply with the printer name shown on its label."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-011",
+    "title": "Request standard access to a shared drive or tool",
+    "category": "access_request",
+    "keywords": ["access", "request", "shared", "drive", "folder", "tool", "project", "permission", "share", "library", "wiki"],
+    "steps": [
+      "Confirm the exact name of the shared drive, project or tool you need.",
+      "Submit a ticket naming the resource and the reason you need it.",
+      "Standard resources that match your role are approved automatically; others go to your manager or the resource owner.",
+      "Access normally appears within 15 minutes of approval; sign out and back in to refresh it.",
+      "Restricted and privileged resources always need a manual approval."
+    ],
+    "last_reviewed": "2026-11-01"
+  },
+  {
+    "id": "KB-012",
+    "title": "Report a suspected phishing email",
+    "category": "security_incident",
+    "keywords": ["phishing", "suspicious", "email", "link", "attachment", "scam", "spam", "report", "clicked"],
+    "steps": [
+      "Do not click links, open attachments or reply to the message.",
+      "Use the Report phishing button in your mail client to send it to the security team.",
+      "Do not forward the message to colleagues.",
+      "If you already clicked a link or entered your credentials, tell the service desk immediately by phone or ticket.",
+      "The security team will contact you if more action is needed."
+    ],
+    "last_reviewed": "2026-11-01"
+  }
+]

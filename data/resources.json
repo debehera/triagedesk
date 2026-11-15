@@ -1,0 +1,12 @@
+[
+  {"id": "r-01", "name": "Engineering Shared Drive", "aliases": ["engineering drive", "eng share", "engineering share"], "sensitivity": "standard", "allowed_roles": ["Software Engineer", "Engineering Manager"]},
+  {"id": "r-02", "name": "Marketing Assets Library", "aliases": ["marketing assets", "marketing library", "brand assets"], "sensitivity": "standard", "allowed_roles": ["Designer", "Marketing Manager", "Account Executive", "Sales Ops"]},
+  {"id": "r-03", "name": "Intranet Wiki", "aliases": ["intranet", "wiki", "company wiki"], "sensitivity": "standard", "allowed_roles": ["*"]},
+  {"id": "r-04", "name": "Jira Project: Platform", "aliases": ["jira platform", "platform project", "jira platform project"], "sensitivity": "standard", "allowed_roles": ["Software Engineer", "Engineering Manager"]},
+  {"id": "r-05", "name": "Finance Shared Drive", "aliases": ["finance share", "finance drive", "finance folder"], "sensitivity": "restricted", "allowed_roles": ["Accountant", "Financial Analyst", "Finance Manager"]},
+  {"id": "r-06", "name": "HR Records System", "aliases": ["hr records", "hr system", "hr database"], "sensitivity": "restricted", "allowed_roles": ["HR Generalist", "HR Manager"]},
+  {"id": "r-07", "name": "Production Database", "aliases": ["prod db", "production database", "prod database"], "sensitivity": "privileged", "allowed_roles": ["Software Engineer", "Engineering Manager"]},
+  {"id": "r-08", "name": "Identity Admin Console", "aliases": ["admin console", "identity admin", "admin access"], "sensitivity": "privileged", "allowed_roles": ["IT Operations Lead"]},
+  {"id": "r-09", "name": "CRM", "aliases": ["crm", "sales crm", "customer database"], "sensitivity": "standard", "allowed_roles": ["Account Executive", "Sales Ops", "Sales Manager"]},
+  {"id": "r-10", "name": "Payroll System", "aliases": ["payroll", "payroll system", "payroll access"], "sensitivity": "privileged", "allowed_roles": ["HR Manager", "Finance Manager"]}
+]

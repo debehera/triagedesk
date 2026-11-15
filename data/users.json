@@ -1,0 +1,17 @@
+[
+  {"id": "u-101", "name": "Asha Rao", "email": "asha.rao@example.com", "department": "Engineering", "role": "Software Engineer", "manager_id": "u-110", "status": "active"},
+  {"id": "u-102", "name": "Ben Carter", "email": "ben.carter@example.com", "department": "Engineering", "role": "Software Engineer", "manager_id": "u-110", "status": "active"},
+  {"id": "u-103", "name": "Chloe Dubois", "email": "chloe.dubois@example.com", "department": "Finance", "role": "Accountant", "manager_id": "u-111", "status": "active"},
+  {"id": "u-104", "name": "Dev Patel", "email": "dev.patel@example.com", "department": "Finance", "role": "Financial Analyst", "manager_id": "u-111", "status": "active"},
+  {"id": "u-105", "name": "Elena Rossi", "email": "elena.rossi@example.com", "department": "HR", "role": "HR Generalist", "manager_id": "u-112", "status": "active"},
+  {"id": "u-106", "name": "Farid Khan", "email": "farid.khan@example.com", "department": "Sales", "role": "Account Executive", "manager_id": "u-113", "status": "active"},
+  {"id": "u-107", "name": "Grace Lee", "email": "grace.lee@example.com", "department": "Sales", "role": "Sales Ops", "manager_id": "u-113", "status": "active"},
+  {"id": "u-108", "name": "Hiro Tanaka", "email": "hiro.tanaka@example.com", "department": "Marketing", "role": "Designer", "manager_id": "u-114", "status": "active"},
+  {"id": "u-109", "name": "Isla Murphy", "email": "isla.murphy@example.com", "department": "IT", "role": "Service Desk Agent", "manager_id": null, "status": "active"},
+  {"id": "u-110", "name": "Jon Weber", "email": "jon.weber@example.com", "department": "Engineering", "role": "Engineering Manager", "manager_id": null, "status": "active"},
+  {"id": "u-111", "name": "Kavya Nair", "email": "kavya.nair@example.com", "department": "Finance", "role": "Finance Manager", "manager_id": null, "status": "active"},
+  {"id": "u-112", "name": "Liam O'Brien", "email": "liam.obrien@example.com", "department": "HR", "role": "HR Manager", "manager_id": null, "status": "active"},
+  {"id": "u-113", "name": "Maya Singh", "email": "maya.singh@example.com", "department": "Sales", "role": "Sales Manager", "manager_id": null, "status": "active"},
+  {"id": "u-114", "name": "Noah Fischer", "email": "noah.fischer@example.com", "department": "Marketing", "role": "Marketing Manager", "manager_id": null, "status": "active"},
+  {"id": "u-115", "name": "Pete Young", "email": "pete.young@example.com", "department": "Sales", "role": "Account Executive", "manager_id": "u-113", "status": "disabled"}
+]
