@@ -1,0 +1,8 @@
+[
+  {"id": "T-1001", "subject": "VPN client rejects my password", "status": "open", "notes": []},
+  {"id": "T-1002", "subject": "Password reset for new starter", "status": "resolved", "notes": ["Reset link sent via the self-service portal (KB-001)."]},
+  {"id": "T-1003", "subject": "Suspicious email asking me to sign in", "status": "escalated", "notes": ["Escalated to the security team for review."]},
+  {"id": "T-1004", "subject": "Access to the finance share for quarter close", "status": "pending_approval", "notes": ["Waiting for manager approval."]},
+  {"id": "T-1005", "subject": "Outlook stuck on Send/Receive", "status": "open", "notes": []},
+  {"id": "T-1006", "subject": "Add the floor 3 network printer", "status": "resolved", "notes": ["Printer added by following KB-010."]}
+]

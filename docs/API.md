@@ -294,7 +294,7 @@ Pre-tool check (diagnostics only): tool name in the allowed set; argument keys k
 | Purpose | Find knowledge-base articles for a short symptom description. Use before proposing any fix |
 | Request | `query: string`, `category: string \| null`, `limit: int = 3` |
 | Validation | `query` 1-200 characters; `category` null or a valid `Category`; `limit` 1-5 |
-| Scoring | Tokens: lowercase, split on non-alphanumerics, keep 3+ letters, drop stopwords. Score = 2.0 per query token in the title + 1.0 per token in the keywords + 1.5 if the category filter matches; drop scores below 1.0; sort by score then id |
+| Scoring | Tokens: lowercase, split on non-alphanumerics, keep 3+ letters, drop stopwords. Score = 2.0 per query token in the title + 1.0 per token in the keywords + 1.5 if the category filter matches; drop articles whose word-overlap score is below 1.0 (the category bonus is added only after that check, so a category alone never creates a match); sort by score then id |
 | Success `data` | `{"matches": [{id, title, category, score, steps}]}`. **An empty list is success** (no relevant article), not an error |
 | Errors | `INVALID_INPUT` |
 

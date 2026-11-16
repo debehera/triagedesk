@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 from functools import lru_cache
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel
 
@@ -27,6 +27,18 @@ class Resource(BaseModel):
     aliases: list[str]
     sensitivity: Sensitivity
     allowed_roles: list[str]
+
+
+TicketStatus = Literal["open", "resolved", "pending_approval", "escalated"]
+
+
+class SeedTicket(BaseModel):
+    """A ticket that exists before any triage run (data/tickets_seed.json)."""
+
+    id: str
+    subject: str
+    status: TicketStatus
+    notes: list[str]
 
 
 class KBArticle(BaseModel):
@@ -66,6 +78,12 @@ def load_access() -> dict[str, frozenset[str]]:
 def load_kb() -> list[KBArticle]:
     """The knowledge base, in file order (KB-001 ...)."""
     return [KBArticle.model_validate(a) for a in _read("kb.json")]
+
+
+@lru_cache
+def load_tickets_seed() -> list[SeedTicket]:
+    """The six starting tickets of the in-memory ITSM store (T-1001 ...)."""
+    return [SeedTicket.model_validate(t) for t in _read("tickets_seed.json")]
 
 
 @lru_cache

@@ -7,6 +7,7 @@ One entry per working day. Hours are filled in by the builder; everything else i
 | 1 | 2026-11-14 | 2 | Scope, PRD, blueprint, dev setup | Done |
 | 2 | 2026-11-15 | 2 | System design, contracts, mock data, config | Done once the manual close-out steps below are finished |
 | 3 | 2026-11-15 | 1 | Loaders + Directory MCP server | Done |
+| 4 | 2026-11-16 | 2 | ITSM MCP server | Done |
 ---
 
 ## Day 1 - Scope, requirements, blueprint
@@ -46,3 +47,13 @@ One entry per working day. Hours are filled in by the builder; everything else i
 **Deviations:** `.mcp.json` deferred to Day 11; `@tool_guard` decorator added; stricter ID validation (see `docs/handoff/day-03.md`).
 
 **Next:** Day 4 - ITSM MCP server.
+
+## Day 4 - ITSM MCP server
+
+**Done**
+- `search_kb` (deterministic keyword scoring), `get_ticket`, `update_ticket` and `add_comment` (idempotent writes, capped in-memory store) with six seed tickets; FastMCP wrapper `itsm_server.py`.
+- 198 offline tests: retrieval quality for all 12 KB articles plus 11 symptom queries, validation, idempotency, stdio round trip, fault injection. Ruff clean. Verified in the MCP Inspector.
+
+**Deviations:** the category filter only boosts articles that already match (a category alone no longer creates a match); `.mcp.json` still deferred to Day 11 (see `docs/handoff/day-04.md`).
+
+**Next:** Day 5 - LLM wrapper, MCP hub and the diagnostics loop. Needs an API key, credits and a Console spend limit.
