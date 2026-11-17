@@ -8,6 +8,7 @@ One entry per working day. Hours are filled in by the builder; everything else i
 | 2 | 2026-11-15 | 2 | System design, contracts, mock data, config | Done once the manual close-out steps below are finished |
 | 3 | 2026-11-15 | 1 | Loaders + Directory MCP server | Done |
 | 4 | 2026-11-16 | 2 | ITSM MCP server | Done |
+| 5 | 2026-11-17 | 2 | LLM wrapper, MCP hub, diagnostics loop | Done |
 ---
 
 ## Day 1 - Scope, requirements, blueprint
@@ -57,3 +58,8 @@ One entry per working day. Hours are filled in by the builder; everything else i
 **Deviations:** the category filter only boosts articles that already match (a category alone no longer creates a match); `.mcp.json` still deferred to Day 11 (see `docs/handoff/day-04.md`).
 
 **Next:** Day 5 - LLM wrapper, MCP hub and the diagnostics loop. Needs an API key, credits and a Console spend limit.
+
+## Day 5 
+Built the LLM wrapper (retries, cost), the MCP hub, the diagnostics loop and the fakes; 284 tests.
+First live run: 2 model calls, 4,752 input and 108 output tokens, $0.0106.
+Set up $5 credits, a $10 monthly limit and the API key.
