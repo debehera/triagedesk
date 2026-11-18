@@ -9,6 +9,7 @@ One entry per working day. Hours are filled in by the builder; everything else i
 | 3 | 2026-11-15 | 1 | Loaders + Directory MCP server | Done |
 | 4 | 2026-11-16 | 2 | ITSM MCP server | Done |
 | 5 | 2026-11-17 | 2 | LLM wrapper, MCP hub, diagnostics loop | Done |
+| 6 | 2026-11-18 | 1 | Classifier, prompt framing, injection pre-check | Done |
 ---
 
 ## Day 1 - Scope, requirements, blueprint
@@ -63,3 +64,8 @@ One entry per working day. Hours are filled in by the builder; everything else i
 Built the LLM wrapper (retries, cost), the MCP hub, the diagnostics loop and the fakes; 284 tests.
 First live run: 2 model calls, 4,752 input and 108 output tokens, $0.0106.
 Set up $5 credits, a $10 monthly limit and the API key.
+
+## Day 6
+Built the classifier, the injection and security-term detectors, the classify CLI, 19 labelled eval tickets and a classify-only runner.
+Dev run: 100% category accuracy and 100% severity within ±1 on 12 tickets; holdout untouched. 364 tests.
+Prompt cache confirmed working (about 2,350 tokens).

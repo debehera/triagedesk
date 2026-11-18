@@ -45,6 +45,11 @@ def tool_use_response(calls: list[tuple[str, dict[str, Any]]], *, text: str = ""
     )
 
 
+def forced_tool_response(name: str, tool_input: dict[str, Any]) -> LLMResponse:
+    """The reply to a forced tool call (tool_choice): exactly one tool_use block."""
+    return tool_use_response([(name, tool_input)])
+
+
 class FakeLLM:
     def __init__(self, script: list[LLMResponse | Exception]) -> None:
         self.script = list(script)
