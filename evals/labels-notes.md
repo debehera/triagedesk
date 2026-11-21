@@ -25,6 +25,15 @@ afterwards, so the numbers stay honest.
 ## Severity choices
 All 19 tickets are P3 except the printer (EV-010) and the two software installs (EV-005, EV-006), which are P4 because they are low impact. The severity check allows a difference of one level.
 
+## Access and security tickets (EV-020..033, added Day 7, 2026-11-21)
+Labels written before any model output; the full pipeline does not exist yet.
+- Access outcome labels follow the reference data, not opinion: restricted or privileged resource, or a role that is not in `allowed_roles`, means PENDING_APPROVAL (guardrail G2); standard and eligible means AUTO_RESOLVED. `tests/test_eval_tickets.py` recomputes this from `data/*.json`, so a label cannot drift.
+- EV-027 (designer asks for the Engineering drive) is a standard resource but the role is not eligible: PENDING_APPROVAL with `high_risk = false`.
+- No access ticket asks for a resource the user already holds (checked by a test).
+- EV-029 is P2 and EV-033 is P1 in the labels; severity is compared with a tolerance of one level, so P1 and P2 are interchangeable for the check. What matters for these five is ESCALATED, and G1 also forces it from the code-side security-term net.
+- EV-033 (forgot password plus a stolen laptop) is labelled security_incident, with password_reset accepted as an alternative category.
+- Detectors against the whole set: every security ticket (EV-029..033) trips `detect_security_terms`; no other ticket trips either detector.
+
 ## Detector patterns
 - Day 6 added two patterns beyond the blueprint list: `unfamiliar_signin` (for "login alert from an unfamiliar country", EV-031) and a reversed-order variant of `credentials_entered` ("clicked the link and entered my password", EV-029).
 

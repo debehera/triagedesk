@@ -24,8 +24,8 @@ spec.loader.exec_module(classify_only)
 ITEMS = classify_only.load_items()
 
 
-def test_nineteen_unique_sequential_tickets():
-    assert [i["id"] for i in ITEMS] == [f"EV-{n:03d}" for n in range(1, 20)]
+def test_thirty_three_unique_sequential_tickets():
+    assert [i["id"] for i in ITEMS] == [f"EV-{n:03d}" for n in range(1, 34)]
 
 
 def test_every_ticket_is_a_valid_ticket_with_valid_labels():
@@ -46,8 +46,9 @@ def test_tickets_never_mention_kb_ids():
 
 
 def test_public_samples_and_split_counts():
-    assert {i["id"] for i in ITEMS if i["public"]} == {"EV-001", "EV-003", "EV-005", "EV-013"}
-    assert sum(i["split"] == "dev" for i in ITEMS) == 12
+    public = {i["id"] for i in ITEMS if i["public"]}
+    assert public == {"EV-001", "EV-003", "EV-005", "EV-013", "EV-020", "EV-024", "EV-029"}
+    assert sum(i["split"] == "dev" for i in ITEMS) == 20
     assert all(i["split"] == "dev" for i in ITEMS if i["public"])
 
 
@@ -74,9 +75,9 @@ def test_holdout_is_refused_by_default():
         classify_only.select(ITEMS, split="dev", ids={"EV-002"}, include_holdout=False)
 
 
-def test_default_selection_is_the_twelve_dev_tickets():
+def test_default_selection_is_the_twenty_dev_tickets():
     chosen = classify_only.select(ITEMS, split="dev", ids=None, include_holdout=False)
-    assert len(chosen) == 12 and all(i["split"] == "dev" for i in chosen)
+    assert len(chosen) == 20 and all(i["split"] == "dev" for i in chosen)
 
 
 async def test_scoring_counts_acceptable_categories_and_severity_tolerance():
@@ -119,3 +120,69 @@ def test_the_file_is_valid_jsonl_with_lf_endings():
     raw = (ROOT / "evals" / "tickets.jsonl").read_bytes()
     assert b"\r" not in raw
     assert all(json.loads(line) for line in raw.decode().splitlines())
+
+
+# ---------- access and security tickets (EV-020..033) ----------
+
+ACCESS = [i for i in ITEMS if i["tags"][0].startswith("access")]
+SECURITY = [i for i in ITEMS if i["tags"][0] == "security"]
+
+
+def test_group_sizes_match_the_blueprint():
+    assert len(ACCESS) == 9 and len(SECURITY) == 5
+    assert sum(i["tags"][0] == "access-standard" for i in ITEMS) == 4
+    assert sum(i["tags"][0] == "access-restricted" for i in ITEMS) == 5
+
+
+def test_access_labels_agree_with_the_reference_data():
+    """Expected outcome must equal what G2 would decide from data/*.json (no hand-made drift)."""
+    from src.data import is_eligible, load_access, load_resources, load_users
+
+    resources, users, held = load_resources(), load_users(), load_access()
+    wanted = {
+        "EV-020": "r-04",
+        "EV-021": "r-02",
+        "EV-022": "r-09",
+        "EV-023": "r-03",
+        "EV-024": "r-05",
+        "EV-025": "r-06",
+        "EV-026": "r-07",
+        "EV-027": "r-01",
+        "EV-028": "r-08",
+    }
+    assert set(wanted) == {i["id"] for i in ACCESS}
+    for item in ACCESS:
+        resource, user = resources[wanted[item["id"]]], users[item["requester_id"]]
+        assert resource.id not in held[user.id], item["id"]  # nobody asks for what they have
+        needs_approval = resource.sensitivity.value != "standard" or not is_eligible(user, resource)
+        assert item["expected"]["outcome"] == (
+            "PENDING_APPROVAL" if needs_approval else "AUTO_RESOLVED"
+        ), item["id"]
+        assert item["expected"]["high_risk"] is (resource.sensitivity.value != "standard"), item[
+            "id"
+        ]
+
+
+def test_security_tickets_are_escalated_and_high_risk():
+    for item in SECURITY:
+        assert item["expected"]["category"] == "security_incident"
+        assert item["expected"]["outcome"] == "ESCALATED" and item["expected"]["high_risk"]
+
+
+def test_the_code_side_net_catches_every_security_ticket():
+    """CR-2: G1 must not depend on the model recognising the incident."""
+    from src.safety import detect_security_terms
+
+    for item in SECURITY:
+        assert detect_security_terms(item["subject"] + " " + item["body"]), item["id"]
+
+
+def test_no_other_ticket_trips_the_detectors():
+    """False-positive check over every non-security ticket in the set."""
+    from src.safety import injection_matches, security_matches
+
+    for item in ITEMS:
+        text = item["subject"] + " " + item["body"]
+        assert injection_matches(text) == [], item["id"]
+        if item["tags"][0] != "security":
+            assert security_matches(text) == [], (item["id"], security_matches(text))

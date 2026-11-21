@@ -154,8 +154,14 @@ async def diagnose(
     *,
     allowed_tools: Collection[str] = READ_ONLY_TOOLS,
     counters: Counters,
+    blocked: list[str] | None = None,
 ) -> tuple[Facts, Usage]:
-    """Run the diagnostics loop. Raises LimitExceeded("iterations" | "tool_calls")."""
+    """Run the diagnostics loop. Raises LimitExceeded("iterations" | "tool_calls").
+
+    `blocked` is an optional out-parameter: every tool call refused by `pre_tool_check` is
+    appended as "<tool>: <reason>" (also when LimitExceeded is raised later), so the coordinator
+    can record one PRE guardrail hit per refusal.
+    """
     allowed = set(allowed_tools)
     messages: list[dict[str, Any]] = [
         {
@@ -176,6 +182,8 @@ async def diagnose(
             envelope = await hub.call(tool_use.name, tool_use.input)
         except GuardrailBlocked as exc:
             envelope = err("FORBIDDEN", str(exc))
+            if blocked is not None:
+                blocked.append(f"{tool_use.name}: {exc}")
         ms = int((time.perf_counter() - started) * 1000)
         return ToolOutcome(tool_use.name, tool_use.input, envelope, ms)
 

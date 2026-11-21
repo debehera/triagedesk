@@ -10,6 +10,7 @@ One entry per working day. Hours are filled in by the builder; everything else i
 | 4 | 2026-11-16 | 2 | ITSM MCP server | Done |
 | 5 | 2026-11-17 | 2 | LLM wrapper, MCP hub, diagnostics loop | Done |
 | 6 | 2026-11-18 | 1 | Classifier, prompt framing, injection pre-check | Done |
+| 7 | 2026-11-21 | 2 | Guardrails G1-G7, pre-tool check, secret scan | Done |
 ---
 
 ## Day 1 - Scope, requirements, blueprint
@@ -69,3 +70,10 @@ Set up $5 credits, a $10 monthly limit and the API key.
 Built the classifier, the injection and security-term detectors, the classify CLI, 19 labelled eval tickets and a classify-only runner.
 Dev run: 100% category accuracy and 100% severity within ±1 on 12 tickets; holdout untouched. 364 tests.
 Prompt cache confirmed working (about 2,350 tokens).
+
+## Day 7
+Built guardrail rules G1–G7 with a property test over 13,824 combinations that guardrails never relax an outcome.
+Built the full pre-tool check (requester-only lookups) and the secret scan.
+Added eval tickets EV-020 to EV-033, 33 in total.
+Live check on EV-024 showed the restricted facts and the G2 hit, for $0.0169.
+490 tests.

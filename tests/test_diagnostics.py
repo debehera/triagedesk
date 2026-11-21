@@ -45,17 +45,27 @@ def make_classification(category=Category.VPN_NETWORK, severity=Severity.P3) -> 
     )
 
 
-async def run(llm, hub, *, classification=None, settings=SETTINGS, allowed=READ_ONLY_TOOLS):
+async def run(
+    llm,
+    hub,
+    *,
+    classification=None,
+    settings=SETTINGS,
+    allowed=READ_ONLY_TOOLS,
+    requester="u-101",
+    blocked=None,
+):
     counters = Counters()
     facts, usage = await diagnose(
         llm,
         hub,
-        make_ticket(),
+        make_ticket(requester_id=requester),
         classification or make_classification(),
         None,
         settings,
         allowed_tools=allowed,
         counters=counters,
+        blocked=blocked,
     )
     return facts, usage, counters
 
@@ -127,7 +137,7 @@ async def test_results_return_in_one_user_message_with_matching_ids_in_order():
 async def test_failed_tool_result_is_flagged_as_error():
     llm = FakeLLM([tool_use_response([("get_user", {"user_id": "u-999"})]), text_response()])
     hub = FakeHub({"get_user": error_envelope("NOT_FOUND")})
-    await run(llm, hub)
+    await run(llm, hub, requester="u-999")
     result = tool_results(llm.calls[1]["messages"][2])[0]
     assert result["is_error"] is True
     assert json.loads(result["content"])["error"]["code"] == "NOT_FOUND"
@@ -224,12 +234,48 @@ async def test_restricted_tool_set_for_security_tickets():
     )
     hub = FakeHub({"get_user": user_ok("u-103"), "search_kb": kb_ok(("KB-012", 6.0))})
     classification = make_classification(Category.SECURITY_INCIDENT, Severity.P1)
-    facts, _, _ = await run(llm, hub, classification=classification, allowed={"get_user"})
+    facts, _, _ = await run(
+        llm, hub, classification=classification, allowed={"get_user"}, requester="u-103"
+    )
 
     assert [t["name"] for t in llm.calls[0]["tools"]] == ["get_user"]
     assert [name for name, _ in hub.calls] == ["get_user"]
     assert facts.kb_matches == [] and facts.user is not None
     assert "required:search_kb:not_called" not in facts.gaps  # not required for security tickets
+
+
+async def test_blocked_calls_are_reported_through_the_out_parameter():
+    llm = FakeLLM(
+        [
+            tool_use_response(
+                [
+                    ("get_user", {"user_id": "u-110"}),  # somebody else's record
+                    ("search_kb", {"query": "vpn", "limit": 50}),  # limit out of range
+                    ("get_user", {"user_id": "u-101"}),
+                ]
+            ),
+            text_response(),
+        ]
+    )
+    hub = FakeHub({"get_user": user_ok("u-101"), "search_kb": kb_ok()})
+    blocked: list[str] = []
+    facts, _, _ = await run(llm, hub, blocked=blocked)
+
+    assert hub.calls == [("get_user", {"user_id": "u-101"})]  # only the legal call got through
+    assert len(blocked) == 2
+    assert blocked[0].startswith("get_user:") and "requester" in blocked[0]
+    assert blocked[1].startswith("search_kb:") and "limit" in blocked[1]
+    assert "u-110" not in " ".join(blocked)  # reasons never echo values
+    assert [c.error_code for c in facts.tool_calls] == ["FORBIDDEN", "FORBIDDEN", None]
+
+
+async def test_blocked_calls_survive_a_limit_exceeded():
+    settings = Settings.from_env({"MAX_LOOP_ITERATIONS": "2"})
+    turns = [tool_use_response([("update_ticket", {"ticket_id": "T-1"})]) for _ in range(5)]
+    blocked: list[str] = []
+    with pytest.raises(LimitExceeded):
+        await run(FakeLLM(turns), FakeHub({}), settings=settings, blocked=blocked)
+    assert len(blocked) == 2
 
 
 # ---------- facts come from tools only ----------
@@ -244,7 +290,8 @@ async def test_model_text_never_populates_facts():
 
 async def test_get_user_not_found_is_a_required_gap():
     llm = FakeLLM([tool_use_response([("get_user", {"user_id": "u-999"})]), text_response()])
-    facts, _, _ = await run(llm, FakeHub({"get_user": error_envelope("NOT_FOUND")}))
+    hub = FakeHub({"get_user": error_envelope("NOT_FOUND")})
+    facts, _, _ = await run(llm, hub, requester="u-999")
     assert facts.user is None
     assert "required:get_user:NOT_FOUND" in facts.gaps
 
@@ -279,7 +326,7 @@ async def test_access_ticket_collects_resource_access_and_kb():
         }
     )
     classification = make_classification(Category.ACCESS_REQUEST)
-    facts, _, counters = await run(llm, hub, classification=classification)
+    facts, _, counters = await run(llm, hub, classification=classification, requester="u-104")
     assert facts.access is not None and facts.access.sensitivity.value == "restricted"
     assert [m.id for m in facts.kb_matches] == ["KB-011"]
     assert facts.gaps == [] and counters.tool_calls == 4

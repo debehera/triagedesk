@@ -89,3 +89,35 @@ def detect_injection(text: str) -> bool:
 def detect_security_terms(text: str) -> bool:
     """True when the text uses security-incident wording (CR-2, drives guardrail G1)."""
     return bool(security_matches(text))
+
+
+# ---------- secret scanning (blueprint Day 7, step 3; guardrail G6) ----------
+
+SECRET_PATTERNS: dict[str, re.Pattern[str]] = {
+    name: re.compile(rx)
+    for name, rx in {
+        "password_assignment": r"(?i)\b(password|passwd|pwd)\s*[:=]\s*\S+",
+        "password_is": r"(?i)(your|the|new|temporary|temp)\s+password\s+is\s+\S+",
+        "api_key_sk": r"\bsk-[A-Za-z0-9_-]{20,}",
+        "aws_key": r"\bAKIA[0-9A-Z]{16}\b",
+        "private_key": r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
+        "bearer": r"(?i)\bBearer\s+[A-Za-z0-9._-]{20,}",
+        "otp_code": r"(?i)\b(otp|mfa|2fa|verification)\s*(code)?\s*(is|:)\s*\d{4,8}\b",
+    }.items()
+}
+
+REDACTED = "[REDACTED]"
+
+
+def scan_secrets(text: str) -> list[str]:
+    """Names of the secret-like patterns found in `text` (empty list: clean)."""
+    clean = _normalise(text)
+    return [name for name, rx in SECRET_PATTERNS.items() if rx.search(clean)]
+
+
+def redact_secrets(text: str) -> str:
+    """Replace every secret-like match with [REDACTED] (works on the normalised text)."""
+    clean = _normalise(text)
+    for rx in SECRET_PATTERNS.values():
+        clean = rx.sub(REDACTED, clean)
+    return clean
